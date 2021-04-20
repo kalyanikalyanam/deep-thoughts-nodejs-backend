@@ -1,14 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const PostMessage = require("../models/menu");
+const Menu = require("../models/menu");
 
-const router = express.Router();
+// const router = express.Router();
 
 const getMenus = async (req, res) => {
   try {
-    const postMessages = await PostMessage.find();
+    const Menus = await Menu.find();
 
-    res.status(200).json(postMessages);
+    res.status(200).json(Menus);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -18,7 +18,7 @@ const getMenu = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const Menu = await PostMessage.findById(id);
+    const Menu = await Menu.findById(id);
 
     res.status(200).json(Menu);
   } catch (error) {
@@ -29,15 +29,15 @@ const getMenu = async (req, res) => {
 const AddMenu = async (req, res) => {
   const { menu, date } = req.body;
 
-  const newPostMessage = new PostMessage({
+  const newMenu = new Menu({
     menu,
     date,
   });
 
   try {
-    await newPostMessage.save();
+    await newMenu.save();
 
-    res.status(201).json(newPostMessage);
+    res.status(201).json(newMenu);
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
@@ -52,7 +52,7 @@ const updateMenu = async (req, res) => {
 
   const updateMenu = { menu, date, _id: id };
 
-  await PostMessage.findByIdAndUpdate(id, updateMenu);
+  await Menu.findByIdAndUpdate(id, updateMenu);
 
   res.json(updateMenu);
 };
@@ -63,7 +63,7 @@ const deleteMenu = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send(`No post with id: ${id}`);
 
-  await PostMessage.findByIdAndRemove(id);
+  await Menu.findByIdAndRemove(id);
 
   res.json({ message: "Post deleted successfully." });
 };
@@ -74,15 +74,15 @@ const deleteMenu = async (req, res) => {
 //   if (!mongoose.Types.ObjectId.isValid(id))
 //     return res.status(404).send(`No post with id: ${id}`);
 
-//   const post = await PostMessage.findById(id);
+//   const post = await Menu.findById(id);
 
-//   const updatedPost = await PostMessage.findByIdAndUpdate(
+//   const updatedMenu = await Menu.findByIdAndUpdate(
 //     id,
 //     { likeCount: post.likeCount + 1 },
 //     { new: true }
 //   );
 
-//   res.json(updatedPost);
+//   res.json(updatedMenu);
 // };
 
 module.exports = {

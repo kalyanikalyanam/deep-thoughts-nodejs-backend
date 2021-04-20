@@ -3,13 +3,22 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const postRoutes = require("./routes/index");
-
+const upload = require("./routes/upload");
+const path = require("path");
 const app = express();
+app.use("/public", express.static("public"));
 
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: false,
+  })
+);
 app.use(cors());
-
+app.use(express.static(__dirname + "/public/"));
+app.use(express.static(path.join(__dirname, "/public")));
+app.use("/file", upload);
 app.use("/admin", postRoutes);
 
 const CONNECTION_URL =
