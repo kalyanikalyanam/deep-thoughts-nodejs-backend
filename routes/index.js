@@ -1,9 +1,10 @@
 const express = require("express");
 const cors = require("cors");
+// const auth = require("auth");
 // const upload = require("../middleware/upload");
-
+const auth = require("../middleware/auth");
 const SubMenu = require("../models/sub_menu");
-
+const User = require("../models/login");
 const {
   AddMenu,
   getMenus,
@@ -59,7 +60,6 @@ router.post("/add_sub_menu", AddSubMenu);
 router.get("/update_sub_menu/:id", getSubMenu);
 router.put("/update_sub_menu_patch/:id", updateSubMenu);
 router.delete("/delete_sub_menu/:id", deleteSubMenu);
-
 router.get("/submenuvalues/:query", cors(), (req, res) => {
   var query = req.params.query;
 
@@ -82,105 +82,82 @@ router.get("/submenuvalues/:query", cors(), (req, res) => {
   );
 });
 
-// router.post("/add_sub_menu", uploadimg.any(), async (req, res) => {
-//   const newSubMenu = new SubMenu({
-//     sub_menu: req.body.sub_menu,
-//     description: req.body.description,
-//     image: `http://localhost:5000/upload/${
-//       req.files[0] && req.files[0].filename ? req.files[0].filename : ""
-//     }`,
-//     menu: req.body.menu,
-//     date: Date.now(),
-//   });
+router.post("/users", async (req, res) => {
+  //to create a req.
 
-//   try {
-//     await newSubMenu.save();
+  const value = new User(req.body);
+  try {
+    await value.save();
+    const token = value.generateAuthToken();
+    res.status(201).send({ value, token });
+  } catch (e) {
+    res.status(500).send(e);
+  }
+});
+//to login a user
+router.post("/users/login", async (req, res) => {
+  try {
+    console.log("dwdwwd");
+    const user = await User.findBylogin(req.body.email, req.body.password);
+    console.log(user);
+    const token = await user.generateAuthToken(); //this method generates a token for login users
+    res.json({ user, token });
+  } catch (e) {
+    console.log(e);
+    res.status(400).send();
+  }
+});
+//logout
+router.get("/logout", auth, (req, res) => {
+  try {
+    req.user.tokens = req.user.tokens.filter((token) => {
+      return token.token !== req.token;
+    });
+    req.user.save();
+    res.send("logout successful");
+  } catch (e) {
+    res.status(401).send(e);
+  }
+});
 
-//     res.status(201).json(newSubMenu);
-//   } catch (error) {
-//     res.status(409).json({ message: error.message });
-//   }
-// });
+router.post("/changepassword", auth, function (req, res) {
+  const { password, passwordnew } = req.body;
 
-// router.post(
-//   "/add_sub_menu",
+  console.log(req.user);
+  console.log(req.user._id + "id");
 
-//   uploadimg.any(),
-//   (req, res) => {
-//     const submenudata = new SubMenu({
-//       submenu: req.body.submenu,
-//       description: req.body.description,
-//       image: `http://localhost:5000/upload/${
-//         req.files[0] && req.files[0].filename ? req.files[0].filename : ""
-//       }`,
-//       menu: req.body.menu,
-//       date: Date.now(),
-//     });
+  User.findById(req.user._id, (err, data) => {
+    if (err) {
+      console.log(err);
+    }
+    bcrypt.compare(password, data.password, (err, isMatch) => {
+      if (err) {
+        res.send(err);
+      }
+      if (!isMatch) {
+        // res.send({
+        //   Error: "Password is Incorrect",
+        // });
+        console.log("not match");
+      }
+      data.password = passwordnew;
+      console.log(data.password);
 
-//     submenudata.save(function (err, vid) {
-//       if (err) {
-//         res.json(200)(err);
-//       } else {
-//       }
-//     });
-//   }
-// );
-// router.post("/add_sub_menu", uploadimg.any(), async (req, res) => {
-//   try {
-//     const newMenuMessage = await SubMenu.create({
-//       submenu: req.body.submenu,
-//       description: req.body.description,
-//       image: `http://localhost:5000/upload/${
-//         req.files[0] && req.files[0].filename ? req.files[0].filename : ""
-//       }`,
-//       menu: req.body.menu,
-//       date: Date.now(),
-//     });
-//     console.log(req.body);
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(data.password, salt, (err, hash) => {
+          if (err) throw err;
 
-//     // newMenuMessage.save();
+          data.password = hash;
 
-//     res.status(201).json({ newMenuMessage });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(409).json({ message: error.message });
-//   }
-// });
-
-// router.get("/submenus", uploadimg.any(), async (req, res) => {
-//   try {
-//     const SubMenus = await SubMenu.find({});
-
-//     res.status(200).json(SubMenus);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(404).json({ message: error.message });
-//   }
-// });
-
-// router.get("/update_sub_menu/:id", async (req, res) => {
-//   const { id } = req.params;
-
-//   try {
-//     const SubMenu = await SubMenu.findById(id);
-
-//     res.status(200).json({ SubMenu });
-//   } catch (error) {
-//     res.status(404).json({ message: error.message });
-//   }
-// });
-// router.put("/update_sub_menu_patch/:id", async (req, res) => {
-//   const { id } = req.params;
-//   const { submenu, description, image, menu, date } = req.body;
-
-//   if (!mongoose.Types.ObjectId.isValid(id))
-//     return res.status(404).send(`No post with id: ${id}`);
-
-//   const updateSubMenu = { submenu, description, image, menu, date, _id: id };
-
-//   await Menu.findByIdAndUpdate(id, updateSubMenu);
-
-//   res.json(updateSubMenu);
-// });
+          data.save(function (err, Person) {
+            if (err) console.log(err);
+            else console.log("Success");
+            res.send(Person);
+          });
+        });
+      });
+    });
+  });
+});
 
 module.exports = router;

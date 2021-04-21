@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const postRoutes = require("./routes/index");
+const Auth = require("./routes/auth");
 const upload = require("./routes/upload");
 const path = require("path");
 const app = express();
@@ -20,6 +21,7 @@ app.use(express.static(__dirname + "/public/"));
 app.use(express.static(path.join(__dirname, "/public")));
 app.use("/file", upload);
 app.use("/admin", postRoutes);
+app.use("/api", Auth);
 
 const CONNECTION_URL =
   "mongodb://kalyani:sushma1997@cluster0-shard-00-00.3oo3m.mongodb.net:27017,cluster0-shard-00-01.3oo3m.mongodb.net:27017,cluster0-shard-00-02.3oo3m.mongodb.net:27017/test?replicaSet=atlas-chwiy5-shard-0&ssl=true&authSource=admin";
