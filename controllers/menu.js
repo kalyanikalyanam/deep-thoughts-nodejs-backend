@@ -18,9 +18,9 @@ const getMenu = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const Menu = await Menu.findById(id);
+    const Menu1 = await Menu.findById(id);
 
-    res.status(200).json(Menu);
+    res.status(200).json(Menu1);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
