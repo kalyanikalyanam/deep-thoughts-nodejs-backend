@@ -1,5 +1,5 @@
 const express = require("express");
-
+const cors = require("cors");
 // const upload = require("../middleware/upload");
 
 const SubMenu = require("../models/sub_menu");
@@ -59,6 +59,28 @@ router.post("/add_sub_menu", AddSubMenu);
 router.get("/update_sub_menu/:id", getSubMenu);
 router.put("/update_sub_menu_patch/:id", updateSubMenu);
 router.delete("/delete_sub_menu/:id", deleteSubMenu);
+
+router.get("/submenuvalues/:query", cors(), (req, res) => {
+  var query = req.params.query;
+
+  SubMenu.find(
+    {
+      menu: query,
+    },
+    (err, result) => {
+      if (err) throw err;
+      if (result) {
+        res.json(result);
+      } else {
+        res.send(
+          JSON.stringify({
+            error: "Error",
+          })
+        );
+      }
+    }
+  );
+});
 
 // router.post("/add_sub_menu", uploadimg.any(), async (req, res) => {
 //   const newSubMenu = new SubMenu({
