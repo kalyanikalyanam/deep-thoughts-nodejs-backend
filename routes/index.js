@@ -1,7 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-// const auth = require("auth");
-// const upload = require("../middleware/upload");
 const auth = require("../middleware/auth");
 const SubMenu = require("../models/sub_menu");
 const User = require("../models/login");
@@ -32,30 +30,6 @@ router.delete("/delete_menu/:id", deleteMenu);
 
 //Sub Menu
 router.get("/submenus", getSubMenus);
-
-// router.post("/add_sub_menu", upload.single("upload"), (req, res) => {
-//   var img = req.file.path;
-//   const url = "https://" + req.headers.host + "/" + img;
-//   console.log(img.split("\\")[2]);
-//   const { submenu, description, menu, date } = req.body;
-
-//   const newSubMenuData = new SubMenu({
-//     submenu,
-//     description,
-//     image: url,
-//     menu,
-//     date,
-//   });
-//   console.log(req.file);
-
-//   try {
-//     newSubMenuData.save();
-
-//     res.status(201).json(newSubMenuData);
-//   } catch (error) {
-//     res.status(409).json({ message: error.message });
-//   }
-// });
 router.post("/add_sub_menu", AddSubMenu);
 router.get("/update_sub_menu/:id", getSubMenu);
 router.put("/update_sub_menu_patch/:id", updateSubMenu);
@@ -81,7 +55,7 @@ router.get("/submenuvalues/:query", cors(), (req, res) => {
     }
   );
 });
-
+//Register
 router.post("/users", async (req, res) => {
   //to create a req.
 
@@ -119,7 +93,7 @@ router.get("/logout", auth, (req, res) => {
     res.status(401).send(e);
   }
 });
-
+//changepassword
 router.post("/changepassword", auth, function (req, res) {
   const { password, passwordnew } = req.body;
 
