@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Post = require("../models/post");
+const cors = require("cors");
 const router = express.Router();
 
 router.post("/Addpost", (req, res) => {
@@ -67,5 +68,25 @@ router.delete("/delete_post/:id", async (req, res) => {
 
   res.json({ message: "Post deleted successfully." });
 });
+router.get("/postvalues/:query", cors(), (req, res) => {
+  var query = req.params.query;
 
+  Post.find(
+    {
+      submenu: query,
+    },
+    (err, result) => {
+      if (err) throw err;
+      if (result) {
+        res.json(result);
+      } else {
+        res.send(
+          JSON.stringify({
+            error: "Error",
+          })
+        );
+      }
+    }
+  );
+});
 module.exports = router;

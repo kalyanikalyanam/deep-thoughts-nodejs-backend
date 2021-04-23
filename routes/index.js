@@ -57,27 +57,6 @@ router.get("/submenuvalues/:query", cors(), (req, res) => {
   );
 });
 
-router.get("/menuvalues/:query", cors(), (req, res) => {
-  var query = req.params.query;
-
-  Menu.find(
-    {
-      submenu: query,
-    },
-    (err, result) => {
-      if (err) throw err;
-      if (result) {
-        res.json(result);
-      } else {
-        res.send(
-          JSON.stringify({
-            error: "Error",
-          })
-        );
-      }
-    }
-  );
-});
 //Register
 router.post("/users", async (req, res) => {
   //to create a req.
