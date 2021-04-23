@@ -5,6 +5,14 @@ const PostSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  menu: {
+    type: String,
+    required: true,
+  },
+  submenu: {
+    type: String,
+    required: true,
+  },
 
   description: {
     type: String,

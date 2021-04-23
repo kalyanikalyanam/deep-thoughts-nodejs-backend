@@ -3,6 +3,7 @@ const cors = require("cors");
 const auth = require("../middleware/auth");
 const SubMenu = require("../models/sub_menu");
 const User = require("../models/login");
+const Menu = require("../models/menu");
 const {
   AddMenu,
   getMenus,
@@ -40,6 +41,28 @@ router.get("/submenuvalues/:query", cors(), (req, res) => {
   SubMenu.find(
     {
       menu: query,
+    },
+    (err, result) => {
+      if (err) throw err;
+      if (result) {
+        res.json(result);
+      } else {
+        res.send(
+          JSON.stringify({
+            error: "Error",
+          })
+        );
+      }
+    }
+  );
+});
+
+router.get("/menuvalues/:query", cors(), (req, res) => {
+  var query = req.params.query;
+
+  Menu.find(
+    {
+      submenu: query,
     },
     (err, result) => {
       if (err) throw err;

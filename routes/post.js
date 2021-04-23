@@ -7,6 +7,8 @@ router.post("/Addpost", (req, res) => {
   const postdata = new Post({
     title: req.body.title,
     description: req.body.description,
+    menu: req.body.menu,
+    submenu: req.body.submenu,
   });
 
   console.log(req.body);
@@ -43,12 +45,12 @@ router.get("/update_post/:id", async (req, res) => {
 });
 router.put("/update_post_patch/:id", async (req, res) => {
   const { id } = req.params;
-  const { title, description } = req.body;
+  const { title, description, menu, submenu } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send(`No post with id: ${id}`);
 
-  const updatepost = { title, description, _id: id };
+  const updatepost = { title, description, menu, submenu, _id: id };
 
   await Post.findByIdAndUpdate(id, updatepost);
 
