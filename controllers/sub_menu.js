@@ -24,11 +24,12 @@ const getSubMenu = async (req, res) => {
 };
 
 const AddSubMenu = (req, res) => {
-  const { submenu, description, menu, date } = req.body;
+  const { submenu, description, description1, menu, date } = req.body;
 
   const newSubMenuData = new SubMenu({
     submenu,
     description,
+    description1,
     menu,
     date,
   });
@@ -44,12 +45,19 @@ const AddSubMenu = (req, res) => {
 
 const updateSubMenu = async (req, res) => {
   const { id } = req.params;
-  const { submenu, description, menu, date } = req.body;
+  const { submenu, description, description1, menu, date } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send(`No post with id: ${id}`);
 
-  const updateSubMenuData = { submenu, description, menu, date, _id: id };
+  const updateSubMenuData = {
+    submenu,
+    description,
+    description1,
+    menu,
+    date,
+    _id: id,
+  };
 
   await SubMenu.findByIdAndUpdate(id, updateSubMenuData);
 

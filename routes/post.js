@@ -89,4 +89,25 @@ router.get("/postvalues/:query", cors(), (req, res) => {
     }
   );
 });
+router.get("/postvalueswithmenu/:query", cors(), (req, res) => {
+  var query = req.params.query;
+
+  Post.find(
+    {
+      menu: query,
+    },
+    (err, result) => {
+      if (err) throw err;
+      if (result) {
+        res.json(result);
+      } else {
+        res.send(
+          JSON.stringify({
+            error: "Error",
+          })
+        );
+      }
+    }
+  );
+});
 module.exports = router;

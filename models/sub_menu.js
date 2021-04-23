@@ -9,6 +9,10 @@ const SubMenuSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  description1: {
+    type: String,
+    required: true,
+  },
 
   // image: {
   //   type: String,

@@ -27,10 +27,11 @@ const getMenu = async (req, res) => {
 };
 
 const AddMenu = async (req, res) => {
-  const { menu, date } = req.body;
+  const { menu, description, date } = req.body;
 
   const newMenu = new Menu({
     menu,
+    description,
     date,
   });
 
@@ -45,12 +46,12 @@ const AddMenu = async (req, res) => {
 
 const updateMenu = async (req, res) => {
   const { id } = req.params;
-  const { menu, date } = req.body;
+  const { menu, description, date } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send(`No post with id: ${id}`);
 
-  const updateMenu = { menu, date, _id: id };
+  const updateMenu = { menu, description, date, _id: id };
 
   await Menu.findByIdAndUpdate(id, updateMenu);
 
