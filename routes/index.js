@@ -29,6 +29,35 @@ router.get("/update_menu/:id", getMenu);
 router.put("/update_menu_patch/:id", updateMenu);
 router.delete("/delete_menu/:id", deleteMenu);
 
+router.get("/getmenudescription/:query", cors(), async (req, res) => {
+  var query = req.params.query;
+  try {
+    const Menu1 = await Menu.find({ menu: query });
+
+    res.status(200).json(Menu1);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+});
+//   Menu.find(
+//     {
+//       menu: query,
+//     },
+//     (err, result) => {
+//       if (err) throw err;
+//       if (result) {
+//         res.json(result);
+//       } else {
+//         res.send(
+//           JSON.stringify({
+//             error: "Error",
+//           })
+//         );
+//       }
+//     }
+//   );
+// });
+
 //Sub Menu
 router.get("/submenus", getSubMenus);
 router.post("/add_sub_menu", AddSubMenu);
