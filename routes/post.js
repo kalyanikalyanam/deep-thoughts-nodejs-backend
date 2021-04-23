@@ -116,7 +116,7 @@ router.get("/allpostvalues/:query", cors(), (req, res) => {
 
   Post.find(
     {
-      submenu: query,
+      menu: query,
     },
     (err, result) => {
       if (err) throw err;
