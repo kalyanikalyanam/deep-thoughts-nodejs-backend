@@ -29,10 +29,10 @@ router.get("/update_menu/:id", getMenu);
 router.put("/update_menu_patch/:id", updateMenu);
 router.delete("/delete_menu/:id", deleteMenu);
 
-router.get("/getmenudescription/:query", cors(), async (req, res) => {
-  var query = req.params.query;
+router.get("/getmenudescription/:menu", cors(), async (req, res) => {
+  var menu = req.body.menu;
   try {
-    const Menu1 = await Menu.find({ menu: query });
+    const Menu1 = await Menu.findOne(menu);
 
     res.status(200).json(Menu1);
   } catch (error) {
