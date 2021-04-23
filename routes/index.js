@@ -30,9 +30,9 @@ router.put("/update_menu_patch/:id", updateMenu);
 router.delete("/delete_menu/:id", deleteMenu);
 
 router.get("/getmenudescription/:menu", cors(), async (req, res) => {
-  var menu = req.body.menu;
+  var menu = req.params;
   try {
-    const Menu1 = await Menu.findOne(menu);
+    const Menu1 = await Menu.find(menu);
 
     res.status(200).json(Menu1);
   } catch (error) {
