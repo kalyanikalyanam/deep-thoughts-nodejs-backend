@@ -86,6 +86,17 @@ router.get("/submenuvalues/:query", cors(), (req, res) => {
   );
 });
 
+router.get("/getsubmenudescription/:submenu", cors(), async (req, res) => {
+  var submenu = req.params;
+  try {
+    const submenu1 = await SubMenu.findOne(submenu);
+
+    res.status(200).json(submenu1);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+});
+
 //Register
 router.post("/users", async (req, res) => {
   //to create a req.
