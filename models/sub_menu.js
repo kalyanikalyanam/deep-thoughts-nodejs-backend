@@ -14,10 +14,6 @@ const SubMenuSchema = new mongoose.Schema({
     required: true,
   },
 
-  // image: {
-  //   type: String,
-  // },
-
   menu: {
     type: String,
     required: true,
@@ -26,6 +22,10 @@ const SubMenuSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date(),
+  },
+  image: {
+    type: String,
+    required: true,
   },
 });
 

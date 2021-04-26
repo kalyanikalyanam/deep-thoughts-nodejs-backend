@@ -4,6 +4,27 @@ const auth = require("../middleware/auth");
 const SubMenu = require("../models/sub_menu");
 const User = require("../models/login");
 const Menu = require("../models/menu");
+const multer = require("multer");
+var uploadimg = multer({
+  storage: multer.diskStorage({
+    destination: "./public/img/",
+
+    filename: function (req, file, cb) {
+      cb(
+        null,
+        file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+      );
+    },
+  }),
+
+  fileFilter: function (req, file, callback) {
+    var ext = path.extname(file.originalname);
+    if (ext !== ".mp4" && ext !== ".png" && ext !== ".svg" && ext !== ".jpg") {
+      return callback("Only videos are allowed", null, false);
+    }
+    callback(null, true);
+  },
+});
 const {
   AddMenu,
   getMenus,
@@ -39,30 +60,62 @@ router.get("/getmenudescription/:menu", cors(), async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 });
-//   Menu.find(
-//     {
-//       menu: query,
-//     },
-//     (err, result) => {
-//       if (err) throw err;
-//       if (result) {
-//         res.json(result);
-//       } else {
-//         res.send(
-//           JSON.stringify({
-//             error: "Error",
-//           })
-//         );
-//       }
-//     }
-//   );
-// });
 
 //Sub Menu
 router.get("/submenus", getSubMenus);
-router.post("/add_sub_menu", AddSubMenu);
+// router.post("/add_sub_menu", AddSubMenu);
+
+router.post("/add_sub_menu", uploadimg.single("file"), (req, res) => {
+  const newSubMenuData = new SubMenu({
+    submenu: req.body.submenu,
+    description: req.body.description,
+    description1: req.body.description1,
+    menu: req.body.menu,
+    date: req.body.date,
+
+    image: `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`,
+  });
+
+  console.log(req.body);
+
+  newSubMenuData.save(function (err, vid) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.status(201).send(vid);
+    }
+  });
+});
+
 router.get("/update_sub_menu/:id", getSubMenu);
-router.put("/update_sub_menu_patch/:id", updateSubMenu);
+// router.put("/update_sub_menu_patch/:id", updateSubMenu);
+
+router.put(
+  "/update_sub_menu_patch/:id",
+  uploadimg.single("file"),
+  async (req, res) => {
+    const { id } = req.params;
+    const { submenu, description, description1, menu, date } = req.body,
+      image = `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`;
+
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(404).send(`No post with id: ${id}`);
+
+    const updateSubMenuData = {
+      submenu,
+      description,
+      description1,
+      menu,
+      date,
+      image,
+      _id: id,
+    };
+
+    await SubMenu.findByIdAndUpdate(id, updateSubMenuData);
+
+    res.json(updateSubMenuData);
+  }
+);
 router.delete("/delete_sub_menu/:id", deleteSubMenu);
 router.get("/submenuvalues/:query", cors(), (req, res) => {
   var query = req.params.query;

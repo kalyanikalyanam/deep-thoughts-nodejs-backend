@@ -23,46 +23,46 @@ const getSubMenu = async (req, res) => {
   }
 };
 
-const AddSubMenu = (req, res) => {
-  const { submenu, description, description1, menu, date } = req.body;
+// const AddSubMenu = (req, res) => {
+//   const { submenu, description, description1, menu, date } = req.body;
 
-  const newSubMenuData = new SubMenu({
-    submenu,
-    description,
-    description1,
-    menu,
-    date,
-  });
+//   const newSubMenuData = new SubMenu({
+//     submenu,
+//     description,
+//     description1,
+//     menu,
+//     date,
+//   });
 
-  try {
-    newSubMenuData.save();
+//   try {
+//     newSubMenuData.save();
 
-    res.status(201).json(newSubMenuData);
-  } catch (error) {
-    res.status(409).json({ message: error.message });
-  }
-};
+//     res.status(201).json(newSubMenuData);
+//   } catch (error) {
+//     res.status(409).json({ message: error.message });
+//   }
+// };
 
-const updateSubMenu = async (req, res) => {
-  const { id } = req.params;
-  const { submenu, description, description1, menu, date } = req.body;
+// const updateSubMenu = async (req, res) => {
+//   const { id } = req.params;
+//   const { submenu, description, description1, menu, date } = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send(`No post with id: ${id}`);
+//   if (!mongoose.Types.ObjectId.isValid(id))
+//     return res.status(404).send(`No post with id: ${id}`);
 
-  const updateSubMenuData = {
-    submenu,
-    description,
-    description1,
-    menu,
-    date,
-    _id: id,
-  };
+//   const updateSubMenuData = {
+//     submenu,
+//     description,
+//     description1,
+//     menu,
+//     date,
+//     _id: id,
+//   };
 
-  await SubMenu.findByIdAndUpdate(id, updateSubMenuData);
+//   await SubMenu.findByIdAndUpdate(id, updateSubMenuData);
 
-  res.json(updateSubMenuData);
-};
+//   res.json(updateSubMenuData);
+// };
 
 const deleteSubMenu = async (req, res) => {
   const { id } = req.params;
@@ -75,27 +75,10 @@ const deleteSubMenu = async (req, res) => {
   res.json({ message: "Post deleted successfully." });
 };
 
-// export const likePost = async (req, res) => {
-//   const { id } = req.params;
-
-//   if (!mongoose.Types.ObjectId.isValid(id))
-//     return res.status(404).send(`No post with id: ${id}`);
-
-//   const post = await Menu.findById(id);
-
-//   const updatedMenu = await Menu.findByIdAndUpdate(
-//     id,
-//     { likeCount: post.likeCount + 1 },
-//     { new: true }
-//   );
-
-//   res.json(updatedMenu);
-// };
-
 module.exports = {
-  AddSubMenu,
+  // AddSubMenu,
   getSubMenus,
-  updateSubMenu,
+  // updateSubMenu,
   getSubMenu,
   deleteSubMenu,
 };
