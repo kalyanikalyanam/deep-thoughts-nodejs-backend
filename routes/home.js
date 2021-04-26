@@ -33,7 +33,7 @@ router.post("/AddHome2", uploadimg.single("file"), (req, res) => {
     title: req.body.title,
     subtitle: req.body.subtitle,
     description: req.body.description,
-    image: `https://localhost:5000/upload/${req.file.filename}`,
+    image: `http://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`,
   });
 
   console.log(req.body);
@@ -74,7 +74,7 @@ router.put(
   async (req, res) => {
     const { id } = req.params;
     const { title, subtitle, description } = req.body,
-      image = `https://localhost:5000/upload/${req.file.filename}`;
+      image = `http://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`;
 
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No post with id: ${id}`);
@@ -104,7 +104,7 @@ router.post("/AddHome3", uploadimg.single("file"), (req, res) => {
     title: req.body.title,
     subtitle: req.body.subtitle,
     description: req.body.description,
-    image: `https://localhost:5000/upload/${req.file.filename}`,
+    image: `http://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`,
   });
 
   console.log(req.body);
@@ -145,7 +145,7 @@ router.put(
   async (req, res) => {
     const { id } = req.params;
     const { title, subtitle, description } = req.body,
-      image = `https://localhost:5000/upload/${req.file.filename}`;
+      image = `http://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`;
 
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No post with id: ${id}`);
@@ -219,7 +219,7 @@ router.put(
 
 router.post("/AddHome1_1", uploadimg.single("file"), (req, res) => {
   const home1_1data = new Home1_1({
-    image: `https://localhost:5000/upload/${req.file.filename}`,
+    image: `http://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`,
   });
 
   console.log(req.body);
