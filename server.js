@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const postRoutes = require("./routes/index");
+const homeRoutes = require("./routes/home");
 const Post = require("./routes/post");
 const Auth = require("./routes/auth");
 const upload = require("./routes/upload");
@@ -22,6 +23,7 @@ app.use(express.static(__dirname + "/public/"));
 app.use(express.static(path.join(__dirname, "/public")));
 app.use("/file", upload);
 app.use("/admin", postRoutes);
+app.use("/home", homeRoutes);
 app.use("/", Post);
 app.use("/api", Auth);
 
