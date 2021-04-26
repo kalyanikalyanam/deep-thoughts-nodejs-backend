@@ -4,6 +4,7 @@ const Home1 = require("../models/home1");
 const Home1_1 = require("../models/home1_1");
 const Home2 = require("../models/home2");
 const Home3 = require("../models/home3");
+const Home4 = require("../models/home4");
 const path = require("path");
 const router = express.Router();
 const multer = require("multer");
@@ -282,6 +283,78 @@ router.delete("/delete_home1_1/:id", async (req, res) => {
   await Home1_1.findByIdAndRemove(id);
 
   res.json({ message: "Home1_1 deleted successfully." });
+});
+
+///////Home4
+
+router.post("/AddHome4", uploadimg.single("file"), (req, res) => {
+  const home4data = new Home4({
+    title: req.body.title,
+
+    description: req.body.description,
+    image: `http://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`,
+  });
+
+  console.log(req.body);
+
+  home4data.save(function (err, vid) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.status(201).send(vid);
+    }
+  });
+});
+
+router.get("/home4s", async (req, res) => {
+  try {
+    const home4data = await Home4.find();
+
+    res.status(200).json(home4data);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+});
+
+router.get("/update_home4/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const home4data = await Home4.findById(id);
+
+    res.status(200).json(home4data);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+});
+router.put(
+  "/update_home4_patch/:id",
+  uploadimg.single("file"),
+  async (req, res) => {
+    const { id } = req.params;
+    const { title, description } = req.body,
+      image = `http://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`;
+
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(404).send(`No post with id: ${id}`);
+
+    const updatehome4 = { title, description, image, _id: id };
+
+    await Home4.findByIdAndUpdate(id, updatehome4);
+
+    res.json(updatehome4);
+  }
+);
+
+router.delete("/delete_home4/:id", async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No post with id: ${id}`);
+
+  await Home4.findByIdAndRemove(id);
+
+  res.json({ message: "Home4 deleted successfully." });
 });
 
 module.exports = router;
