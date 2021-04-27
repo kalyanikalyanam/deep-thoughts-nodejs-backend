@@ -239,6 +239,27 @@ router.put(
   }
 );
 
+router.get("/home1s", async (req, res) => {
+  try {
+    const home1_1data = await Home1.find();
+
+    res.status(200).json(home1_1data);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+});
+
+router.delete("/delete_home1/:id", async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No post with id: ${id}`);
+
+  await Home1.findByIdAndRemove(id);
+
+  res.json({ message: "Home1 deleted successfully." });
+});
+
 //////////////////Home image section !_1
 
 router.post("/AddHome1_1", uploadimg.single("file"), (req, res) => {
