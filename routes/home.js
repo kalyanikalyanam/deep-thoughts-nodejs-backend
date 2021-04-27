@@ -225,7 +225,7 @@ router.put(
   uploadvideo.single("file"),
   async (req, res) => {
     const { id } = req.params;
-    const { title, subtitle } = req.body;
+    const { title, subtitle, video } = req.body;
     video = `https://deepthoughts-nodejs.herokuapp.com/video/${req.file.filename}`;
 
     if (!mongoose.Types.ObjectId.isValid(id))
