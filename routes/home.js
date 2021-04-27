@@ -174,6 +174,7 @@ router.post("/AddHome1", (req, res) => {
   const home1data = new Home1({
     title: req.body.title,
     subtitle: req.body.subtitle,
+    image: `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`,
   });
 
   console.log(req.body);
@@ -204,11 +205,12 @@ router.put(
   async (req, res) => {
     const { id } = req.params;
     const { title, subtitle } = req.body;
+    image = `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`;
 
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No post with id: ${id}`);
 
-    const updatehome1 = { title, subtitle, _id: id };
+    const updatehome1 = { title, subtitle, image, _id: id };
 
     await Home1.findByIdAndUpdate(id, updatehome1);
 
