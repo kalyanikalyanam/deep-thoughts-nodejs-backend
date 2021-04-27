@@ -9,7 +9,7 @@ const Home1Schema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  image: {
+  video: {
     type: String,
     required: true,
   },
