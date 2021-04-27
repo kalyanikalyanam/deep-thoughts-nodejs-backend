@@ -4,6 +4,7 @@ const auth = require("../middleware/auth");
 const SubMenu = require("../models/sub_menu");
 const User = require("../models/login");
 const Menu = require("../models/menu");
+const path = require("path");
 const multer = require("multer");
 var uploadimg = multer({
   storage: multer.diskStorage({
@@ -71,8 +72,6 @@ router.post("/add_sub_menu", uploadimg.single("file"), (req, res) => {
     description: req.body.description,
     description1: req.body.description1,
     menu: req.body.menu,
-    date: req.body.date,
-
     image: `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`,
   });
 
@@ -95,7 +94,7 @@ router.put(
   uploadimg.single("file"),
   async (req, res) => {
     const { id } = req.params;
-    const { submenu, description, description1, menu, date } = req.body,
+    const { submenu, description, description1, menu } = req.body,
       image = `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`;
 
     if (!mongoose.Types.ObjectId.isValid(id))
@@ -106,7 +105,6 @@ router.put(
       description,
       description1,
       menu,
-      date,
       image,
       _id: id,
     };
