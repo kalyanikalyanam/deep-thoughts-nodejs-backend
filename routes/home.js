@@ -22,7 +22,28 @@ var uploadimg = multer({
 
   fileFilter: function (req, file, callback) {
     var ext = path.extname(file.originalname);
-    if (ext !== ".mp4" && ext !== ".png" && ext !== ".svg" && ext !== ".jpg") {
+    if (ext !== ".png" && ext !== ".svg" && ext !== ".jpg") {
+      return callback("Only images are are allowed", null, false);
+    }
+    callback(null, true);
+  },
+});
+
+var uploadvideo = multer({
+  storage: multer.diskStorage({
+    destination: "./public/video/",
+
+    filename: function (req, file, cb) {
+      cb(
+        null,
+        file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+      );
+    },
+  }),
+
+  fileFilter: function (req, file, callback) {
+    var ext = path.extname(file.originalname);
+    if (ext !== ".mp4") {
       return callback("Only videos are allowed", null, false);
     }
     callback(null, true);
@@ -170,7 +191,7 @@ router.delete("/delete_home3/:id", async (req, res) => {
   res.json({ message: "Home3 deleted successfully." });
 });
 ////////////////////////Home1
-router.post("/AddHome1", (req, res) => {
+router.post("/AddHome1", uploadvideo.single("file"), (req, res) => {
   const home1data = new Home1({
     title: req.body.title,
     subtitle: req.body.subtitle,
@@ -201,7 +222,7 @@ router.get("/update_home1/:id", async (req, res) => {
 });
 router.put(
   "/update_home1_patch/:id",
-
+  uploadvideo.single("file"),
   async (req, res) => {
     const { id } = req.params;
     const { title, subtitle } = req.body;
