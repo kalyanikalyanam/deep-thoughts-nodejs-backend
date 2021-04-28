@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const mongoose = require("mongoose");
 const auth = require("../middleware/auth");
 const SubMenu = require("../models/sub_menu");
 const User = require("../models/login");
@@ -114,6 +115,41 @@ router.put(
     res.json(updateSubMenuData);
   }
 );
+
+// router.patch(
+//   "/update_sub_menu_patch/:id",
+//   uploadimg.single("file"),
+//   (req, res) => {
+//     let bannerdata = {};
+//     // submenu,
+//     //       description,
+//     //       description1,
+//     //       menu,
+//     //       image,
+//     bannerdata.submenu = req.body.submenu;
+
+//     bannerdata.description = req.body.description;
+//     bannerdata.description1 = req.body.description1;
+//     bannerdata.menu = req.body.menu;
+//     bannerdata.image = `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`;
+
+//     let query = {
+//       _id: req.params.id,
+//     };
+
+//     SubMenu.update(query, bannerdata, (err) => {
+//       if (!err) {
+//         req.flash("success_msg", "grade is added");
+//         res.status(200).send(bannerdata);
+//         // res.redirect('/admin/banner');
+//       } else {
+//         errors.push({
+//           msg: "failed",
+//         });
+//       }
+//     });
+//   }
+// );
 router.delete("/delete_sub_menu/:id", deleteSubMenu);
 router.get("/submenuvalues/:query", cors(), (req, res) => {
   var query = req.params.query;
