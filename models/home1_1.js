@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const Home1_1Schema = new mongoose.Schema({
-  image: {
+  video: {
     type: String,
   },
 });

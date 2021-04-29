@@ -191,11 +191,80 @@ router.delete("/delete_home3/:id", async (req, res) => {
   res.json({ message: "Home3 deleted successfully." });
 });
 ////////////////////////Home1
-router.post("/AddHome1", uploadvideo.single("file"), (req, res) => {
+// router.post("/AddHome1", uploadvideo.single("file"), (req, res) => {
+//   const home1data = new Home1({
+//     title: req.body.title,
+//     subtitle: req.body.subtitle,
+//     video: `https://deepthoughts-nodejs.herokuapp.com/video/${req.file.filename}`,
+//   });
+
+//   console.log(req.body);
+
+//   home1data.save(function (err, vid) {
+//     if (err) {
+//       res.send(err);
+//     } else {
+//       res.status(201).send(vid);
+//     }
+//   });
+// });
+
+// router.get("/update_home1/:id", async (req, res) => {
+//   const { id } = req.params;
+
+//   try {
+//     const home1data = await Home1.findById(id);
+
+//     res.status(200).json(home1data);
+//   } catch (error) {
+//     res.status(404).json({ message: error.message });
+//   }
+// });
+// router.put(
+//   "/update_home1_patch/:id",
+//   uploadvideo.single("file"),
+//   async (req, res) => {
+//     const { id } = req.params;
+//     const { title, subtitle, video } = req.body;
+//     video = `https://deepthoughts-nodejs.herokuapp.com/video/${req.file.filename}`;
+
+//     if (!mongoose.Types.ObjectId.isValid(id))
+//       return res.status(404).send(`No post with id: ${id}`);
+
+//     const updatehome1 = { title, subtitle, video, _id: id };
+
+//     await Home1.findByIdAndUpdate(id, updatehome1);
+
+//     res.json(updatehome1);
+//   }
+// );
+
+// router.get("/home1s", async (req, res) => {
+//   try {
+//     const home1_1data = await Home1.find();
+
+//     res.status(200).json(home1_1data);
+//   } catch (error) {
+//     res.status(404).json({ message: error.message });
+//   }
+// });
+
+// router.delete("/delete_home1/:id", async (req, res) => {
+//   const { id } = req.params;
+
+//   if (!mongoose.Types.ObjectId.isValid(id))
+//     return res.status(404).send(`No post with id: ${id}`);
+
+//   await Home1.findByIdAndRemove(id);
+
+//   res.json({ message: "Home1 deleted successfully." });
+// });
+
+router.post("/AddHome1", (req, res) => {
   const home1data = new Home1({
     title: req.body.title,
     subtitle: req.body.subtitle,
-    video: `https://deepthoughts-nodejs.herokuapp.com/video/${req.file.filename}`,
+    // video: `https://deepthoughts-nodejs.herokuapp.com/video/${req.file.filename}`,
   });
 
   console.log(req.body);
@@ -222,16 +291,16 @@ router.get("/update_home1/:id", async (req, res) => {
 });
 router.put(
   "/update_home1_patch/:id",
-  uploadvideo.single("file"),
+
   async (req, res) => {
     const { id } = req.params;
-    const { title, subtitle, video } = req.body;
-    video = `https://deepthoughts-nodejs.herokuapp.com/video/${req.file.filename}`;
+    const { title, subtitle } = req.body;
+    // video = `https://deepthoughts-nodejs.herokuapp.com/video/${req.file.filename}`;
 
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No post with id: ${id}`);
 
-    const updatehome1 = { title, subtitle, video, _id: id };
+    const updatehome1 = { title, subtitle, _id: id };
 
     await Home1.findByIdAndUpdate(id, updatehome1);
 
@@ -260,11 +329,11 @@ router.delete("/delete_home1/:id", async (req, res) => {
   res.json({ message: "Home1 deleted successfully." });
 });
 
-//////////////////Home image section !_1
+//////////////////Home video section !_1
 
-router.post("/AddHome1_1", uploadimg.single("file"), (req, res) => {
+router.post("/AddHome1_1", uploadvideo.single("file"), (req, res) => {
   const home1_1data = new Home1_1({
-    image: `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`,
+    video: `https://deepthoughts-nodejs.herokuapp.com/video/${req.file.filename}`,
   });
 
   console.log(req.body);
@@ -301,16 +370,16 @@ router.get("/update_home1_1/:id", async (req, res) => {
 });
 router.put(
   "/update_home1_1_patch/:id",
-  uploadimg.single("file"),
+  uploadvideo.single("file"),
   async (req, res) => {
     const { id } = req.params;
 
-    image = `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`;
+    video = `https://deepthoughts-nodejs.herokuapp.com/video/${req.file.filename}`;
 
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No post with id: ${id}`);
 
-    const updatehome1_1 = { image, _id: id };
+    const updatehome1_1 = { video, _id: id };
 
     await Home1_1.findByIdAndUpdate(id, updatehome1_1);
 
@@ -334,9 +403,9 @@ router.delete("/delete_home1_1/:id", async (req, res) => {
 router.post("/AddHome4", uploadimg.single("file"), (req, res) => {
   const home4data = new Home4({
     title: req.body.title,
-
     description: req.body.description,
     image: `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`,
+    url: req.body.url,
   });
 
   console.log(req.body);
@@ -376,13 +445,13 @@ router.put(
   uploadimg.single("file"),
   async (req, res) => {
     const { id } = req.params;
-    const { title, description } = req.body,
+    const { title, description, url } = req.body,
       image = `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`;
 
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No post with id: ${id}`);
 
-    const updatehome4 = { title, description, image, _id: id };
+    const updatehome4 = { title, description, image, url, _id: id };
 
     await Home4.findByIdAndUpdate(id, updatehome4);
 
