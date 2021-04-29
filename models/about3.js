@@ -16,15 +16,12 @@ const About3Schema = new mongoose.Schema({
 
   twitter: {
     type: String,
-    required: true,
   },
   facebook: {
     type: String,
-    required: true,
   },
   google: {
     type: String,
-    required: true,
   },
 });
 
