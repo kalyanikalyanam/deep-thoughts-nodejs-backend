@@ -6,6 +6,7 @@ const postRoutes = require("./routes/index");
 const homeRoutes = require("./routes/home");
 const aboutRoutes = require("./routes/about");
 const Post = require("./routes/post");
+const Blog = require("./routes/blog");
 const Auth = require("./routes/auth");
 const upload = require("./routes/upload");
 const path = require("path");
@@ -26,6 +27,7 @@ app.use("/file", upload);
 app.use("/admin", postRoutes);
 app.use("/home", homeRoutes);
 app.use("/about", aboutRoutes);
+app.use("/blog", Blog);
 
 app.use("/", Post);
 app.use("/api", Auth);
