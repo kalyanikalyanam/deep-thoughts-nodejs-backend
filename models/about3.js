@@ -11,7 +11,6 @@ const About3Schema = new mongoose.Schema({
   },
   image: {
     type: String,
-    require: true,
   },
 
   twitter: {
