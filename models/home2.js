@@ -16,7 +16,6 @@ const Home2Schema = new mongoose.Schema({
   },
   image: {
     type: String,
-    require: true,
   },
 });
 

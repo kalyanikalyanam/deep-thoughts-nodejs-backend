@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const Home1_1Schema = new mongoose.Schema({
   image: {
     type: String,
-    required: true,
   },
 });
 

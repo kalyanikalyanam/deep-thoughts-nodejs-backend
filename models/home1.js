@@ -11,7 +11,6 @@ const Home1Schema = new mongoose.Schema({
   },
   video: {
     type: String,
-    required: true,
   },
 });
 
