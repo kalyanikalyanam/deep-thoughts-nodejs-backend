@@ -194,6 +194,16 @@ router.delete("/delete_blog1/:id", async (req, res) => {
 //     }
 //   );
 // });
+router.get("/getblogseperatevalue/:category", cors(), async (req, res) => {
+  var category = req.params;
+  try {
+    const submenu1 = await Blog1.findOne(category);
+
+    res.status(200).json(submenu1);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+});
 
 router.get("/blogwithcategory/:query", cors(), (req, res) => {
   var query = req.params.query;
