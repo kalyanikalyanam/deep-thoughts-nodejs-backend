@@ -95,6 +95,7 @@ router.post("/AddBlog1", uploadimg.single("file"), (req, res) => {
     category: req.body.category,
     image: `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`,
     description: req.body.description,
+    date: req.body.date,
   });
 
   console.log(req.body);
@@ -147,13 +148,13 @@ router.put(
   uploadimg.single("file"),
   async (req, res) => {
     const { id } = req.params;
-    const { title, category, description } = req.body,
+    const { title, category, description, date } = req.body,
       image = `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`;
 
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No post with id: ${id}`);
 
-    const updatehome2 = { title, category, description, image, _id: id };
+    const updatehome2 = { title, category, description, image, date, _id: id };
 
     await Blog1.findByIdAndUpdate(id, updatehome2);
 
@@ -170,6 +171,28 @@ router.delete("/delete_blog1/:id", async (req, res) => {
   await Blog1.findByIdAndRemove(id);
 
   res.json({ message: "Post deleted successfully." });
+});
+
+router.get("/blogwithcategory/:query", cors(), (req, res) => {
+  var query = req.params.query;
+
+  Blog1.find(
+    {
+      category: query,
+    },
+    (err, result) => {
+      if (err) throw err;
+      if (result) {
+        res.json(result);
+      } else {
+        res.send(
+          JSON.stringify({
+            error: "Error",
+          })
+        );
+      }
+    }
+  );
 });
 
 ////Blog categories
@@ -235,4 +258,5 @@ router.delete("/delete_blogcategory/:id", async (req, res) => {
 
   res.json({ message: "Post deleted successfully." });
 });
+
 module.exports = router;
