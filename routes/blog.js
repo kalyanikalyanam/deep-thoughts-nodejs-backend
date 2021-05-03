@@ -155,7 +155,7 @@ router.put(
 
     const updatehome2 = { title, category, description, image, _id: id };
 
-    await Home2.findByIdAndUpdate(id, updatehome2);
+    await Blog1.findByIdAndUpdate(id, updatehome2);
 
     res.json(updatehome2);
   }
