@@ -6,6 +6,28 @@ const BlogCategory = require("../models/blogcategories");
 const cors = require("cors");
 const router = express.Router();
 
+const multer = require("multer");
+var uploadimg = multer({
+  storage: multer.diskStorage({
+    destination: "./public/img/",
+
+    filename: function (req, file, cb) {
+      cb(
+        null,
+        file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+      );
+    },
+  }),
+
+  fileFilter: function (req, file, callback) {
+    var ext = path.extname(file.originalname);
+    if (ext !== ".png" && ext !== ".svg" && ext !== ".jpg") {
+      return callback("Only images are are allowed", null, false);
+    }
+    callback(null, true);
+  },
+});
+
 router.post("/AddBlog", (req, res) => {
   const blogdata = new Blog({
     url: req.body.url,
@@ -49,10 +71,28 @@ router.put("/update_blog_patch/:id", async (req, res) => {
 
 ///  Blog 1
 
-router.post("/AddBlog1", (req, res) => {
+// router.post("/AddBlog1", (req, res) => {
+//   const blog1data = new Blog1({
+//     title: req.body.title,
+//     category: req.body.category,
+//     description: req.body.description,
+//   });
+
+//   console.log(req.body);
+
+//   blog1data.save(function (err, vid) {
+//     if (err) {
+//       res.send(err);
+//     } else {
+//       res.status(201).send(vid);
+//     }
+//   });
+// });
+router.post("/AddBlog1", uploadimg.single("file"), (req, res) => {
   const blog1data = new Blog1({
     title: req.body.title,
     category: req.body.category,
+    image: `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`,
     description: req.body.description,
   });
 
@@ -66,7 +106,6 @@ router.post("/AddBlog1", (req, res) => {
     }
   });
 });
-
 router.get("/Blog1s", async (req, res) => {
   try {
     const blog1data = await Blog1.find();
@@ -88,19 +127,38 @@ router.get("/update_blog1/:id", async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 });
-router.put("/update_blog1_patch/:id", async (req, res) => {
-  const { id } = req.params;
-  const { title, category, description } = req.body;
+// router.put("/update_blog1_patch/:id", async (req, res) => {
+//   const { id } = req.params;
+//   const { title, category, description } = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send(`No post with id: ${id}`);
+//   if (!mongoose.Types.ObjectId.isValid(id))
+//     return res.status(404).send(`No post with id: ${id}`);
 
-  const updateblog1 = { title, category, description, _id: id };
+//   const updateblog1 = { title, category, description, _id: id };
 
-  await Blog1.findByIdAndUpdate(id, updateblog1);
+//   await Blog1.findByIdAndUpdate(id, updateblog1);
 
-  res.json(updateblog1);
-});
+//   res.json(updateblog1);
+// });
+
+router.put(
+  "/update_blog1_patch/:id",
+  uploadimg.single("file"),
+  async (req, res) => {
+    const { id } = req.params;
+    const { title, category, description } = req.body,
+      image = `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`;
+
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(404).send(`No post with id: ${id}`);
+
+    const updatehome2 = { title, category, description, image, _id: id };
+
+    await Home2.findByIdAndUpdate(id, updatehome2);
+
+    res.json(updatehome2);
+  }
+);
 
 router.delete("/delete_blog1/:id", async (req, res) => {
   const { id } = req.params;
