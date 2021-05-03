@@ -173,6 +173,28 @@ router.delete("/delete_blog1/:id", async (req, res) => {
   res.json({ message: "Post deleted successfully." });
 });
 
+// router.get("/blogwithcategory/:query", cors(), (req, res) => {
+//   var query = req.params.query;
+
+//   Blog1.find(
+//     {
+//       category: query,
+//     },
+//     (err, result) => {
+//       if (err) throw err;
+//       if (result) {
+//         res.json(result);
+//       } else {
+//         res.send(
+//           JSON.stringify({
+//             error: "Error",
+//           })
+//         );
+//       }
+//     }
+//   );
+// });
+
 router.get("/blogwithcategory/:query", cors(), (req, res) => {
   var query = req.params.query;
 
