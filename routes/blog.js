@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Blog = require("../models/blog");
+const Blog1 = require("../models/blog1");
+const BlogCategory = require("../models/blogcategories");
 const cors = require("cors");
 const router = express.Router();
 
@@ -45,4 +47,133 @@ router.put("/update_blog_patch/:id", async (req, res) => {
   res.json(updateblog);
 });
 
+///  Blog 1
+
+router.post("/AddBlog1", (req, res) => {
+  const blog1data = new Blog1({
+    title: req.body.title,
+    category: req.body.category,
+    description: req.body.description,
+  });
+
+  console.log(req.body);
+
+  blog1data.save(function (err, vid) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.status(201).send(vid);
+    }
+  });
+});
+
+router.get("/Blog1s", async (req, res) => {
+  try {
+    const blog1data = await Blog1.find();
+
+    res.status(200).json(blog1data);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+});
+
+router.get("/update_blog1/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const blog1data = await Blog1.findById(id);
+
+    res.status(200).json(blog1data);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+});
+router.put("/update_blog1_patch/:id", async (req, res) => {
+  const { id } = req.params;
+  const { title, category, description } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No post with id: ${id}`);
+
+  const updateblog1 = { title, category, description, _id: id };
+
+  await Blog1.findByIdAndUpdate(id, updateblog1);
+
+  res.json(updateblog1);
+});
+
+router.delete("/delete_blog1/:id", async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No post with id: ${id}`);
+
+  await Blog1.findByIdAndRemove(id);
+
+  res.json({ message: "Post deleted successfully." });
+});
+
+////Blog categories
+
+router.post("/AddBlogCategory", (req, res) => {
+  const blog1data = new BlogCategory({
+    blogcategory: req.body.blogcategory,
+  });
+
+  console.log(req.body);
+
+  blog1data.save(function (err, vid) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.status(201).send(vid);
+    }
+  });
+});
+
+router.get("/BlogCategorys", async (req, res) => {
+  try {
+    const blogcategorydata = await BlogCategory.find();
+
+    res.status(200).json(blogcategorydata);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+});
+
+router.get("/update_blogcategory/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const blogcategorydata = await BlogCategory.findById(id);
+
+    res.status(200).json(blogcategorydata);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+});
+router.put("/update_blogcategory_patch/:id", async (req, res) => {
+  const { id } = req.params;
+  const { blogcategory } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No post with id: ${id}`);
+
+  const updateblogcategory = { blogcategory, _id: id };
+
+  await BlogCategory.findByIdAndUpdate(id, updateblogcategory);
+
+  res.json(updateblogcategory);
+});
+
+router.delete("/delete_blogcategory/:id", async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No post with id: ${id}`);
+
+  await BlogCategory.findByIdAndRemove(id);
+
+  res.json({ message: "Post deleted successfully." });
+});
 module.exports = router;
