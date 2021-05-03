@@ -4,6 +4,7 @@ const Blog = require("../models/blog");
 const Blog1 = require("../models/blog1");
 const BlogCategory = require("../models/blogcategories");
 const cors = require("cors");
+const path = require("path");
 const router = express.Router();
 
 const multer = require("multer");
