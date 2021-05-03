@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const BlogCategorySchema = new mongoose.Schema({
-  blogcategory: {
+  category: {
     type: String,
     required: true,
   },

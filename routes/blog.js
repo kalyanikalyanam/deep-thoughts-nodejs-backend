@@ -117,7 +117,7 @@ router.delete("/delete_blog1/:id", async (req, res) => {
 
 router.post("/AddBlogCategory", (req, res) => {
   const blog1data = new BlogCategory({
-    blogcategory: req.body.blogcategory,
+    category: req.body.category,
   });
 
   console.log(req.body);
@@ -154,12 +154,12 @@ router.get("/update_blogcategory/:id", async (req, res) => {
 });
 router.put("/update_blogcategory_patch/:id", async (req, res) => {
   const { id } = req.params;
-  const { blogcategory } = req.body;
+  const { category } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send(`No post with id: ${id}`);
 
-  const updateblogcategory = { blogcategory, _id: id };
+  const updateblogcategory = { category, _id: id };
 
   await BlogCategory.findByIdAndUpdate(id, updateblogcategory);
 
