@@ -55,7 +55,7 @@ router.post("/AddHome2", uploadimg.single("file"), (req, res) => {
     title: req.body.title,
     subtitle: req.body.subtitle,
     description: req.body.description,
-    image: `https://deepthought.education:5055/img/${req.file.filename}`,
+    image: `https://cms.deepthought.education:5055/img/${req.file.filename}`,
   });
 
   console.log(req.body);
@@ -96,7 +96,7 @@ router.put(
   async (req, res) => {
     const { id } = req.params;
     const { title, subtitle, description } = req.body,
-      image = `https://deepthought.education:5055/img/${req.file.filename}`;
+      image = `https://cms.deepthought.education:5055/img/${req.file.filename}`;
 
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No post with id: ${id}`);
@@ -126,7 +126,7 @@ router.post("/AddHome3", uploadimg.single("file"), (req, res) => {
     title: req.body.title,
     subtitle: req.body.subtitle,
     description: req.body.description,
-    image: `https://deepthought.education:5055/img/${req.file.filename}`,
+    image: `https://cms.deepthought.education:5055/img/${req.file.filename}`,
   });
 
   console.log(req.body);
@@ -167,7 +167,7 @@ router.put(
   async (req, res) => {
     const { id } = req.params;
     const { title, subtitle, description } = req.body,
-      image = `https://deepthought.education:5055/img/${req.file.filename}`;
+      image = `https://cms.deepthought.education:5055/img/${req.file.filename}`;
 
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No post with id: ${id}`);
@@ -195,7 +195,7 @@ router.delete("/delete_home3/:id", async (req, res) => {
 //   const home1data = new Home1({
 //     title: req.body.title,
 //     subtitle: req.body.subtitle,
-//     video: `https://deepthought.education:5055/video/${req.file.filename}`,
+//     video: `https://cms.deepthought.education:5055/video/${req.file.filename}`,
 //   });
 
 //   console.log(req.body);
@@ -226,7 +226,7 @@ router.delete("/delete_home3/:id", async (req, res) => {
 //   async (req, res) => {
 //     const { id } = req.params;
 //     const { title, subtitle, video } = req.body;
-//     video = `https://deepthought.education:5055/video/${req.file.filename}`;
+//     video = `https://cms.deepthought.education:5055/video/${req.file.filename}`;
 
 //     if (!mongoose.Types.ObjectId.isValid(id))
 //       return res.status(404).send(`No post with id: ${id}`);
@@ -264,7 +264,7 @@ router.post("/AddHome1", (req, res) => {
   const home1data = new Home1({
     title: req.body.title,
     subtitle: req.body.subtitle,
-    // video: `https://deepthought.education:5055/video/${req.file.filename}`,
+    // video: `https://cms.deepthought.education:5055/video/${req.file.filename}`,
   });
 
   console.log(req.body);
@@ -295,7 +295,7 @@ router.put(
   async (req, res) => {
     const { id } = req.params;
     const { title, subtitle } = req.body;
-    // video = `https://deepthought.education:5055/video/${req.file.filename}`;
+    // video = `https://cms.deepthought.education:5055/video/${req.file.filename}`;
 
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No post with id: ${id}`);
@@ -333,7 +333,7 @@ router.delete("/delete_home1/:id", async (req, res) => {
 
 router.post("/AddHome1_1", uploadvideo.single("file"), (req, res) => {
   const home1_1data = new Home1_1({
-    video: `https://deepthought.education:5055/video/${req.file.filename}`,
+    video: `https://cms.deepthought.education:5055/video/${req.file.filename}`,
   });
 
   console.log(req.body);
@@ -374,7 +374,7 @@ router.put(
   async (req, res) => {
     const { id } = req.params;
 
-    video = `https://deepthought.education:5055/video/${req.file.filename}`;
+    video = `https://cms.deepthought.education:5055/video/${req.file.filename}`;
 
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No post with id: ${id}`);
@@ -404,7 +404,7 @@ router.post("/AddHome4", uploadimg.single("file"), (req, res) => {
   const home4data = new Home4({
     title: req.body.title,
     description: req.body.description,
-    image: `https://deepthought.education:5055/img/${req.file.filename}`,
+    image: `https://cms.deepthought.education:5055/img/${req.file.filename}`,
     url: req.body.url,
   });
 
@@ -446,7 +446,7 @@ router.put(
   async (req, res) => {
     const { id } = req.params;
     const { title, description, url } = req.body,
-      image = `https://deepthought.education:5055/img/${req.file.filename}`;
+      image = `https://cms.deepthought.education:5055/img/${req.file.filename}`;
 
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No post with id: ${id}`);

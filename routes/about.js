@@ -34,7 +34,7 @@ router.post("/AddAbout2", uploadimg.single("file"), (req, res) => {
     title: req.body.title,
 
     description: req.body.description,
-    image: `https://deepthought.education:5055/img/${req.file.filename}`,
+    image: `https://cms.deepthought.education:5055/img/${req.file.filename}`,
   });
 
   console.log(req.body);
@@ -75,7 +75,7 @@ router.put(
   async (req, res) => {
     const { id } = req.params;
     const { title, description } = req.body,
-      image = `https://deepthought.education:5055/img/${req.file.filename}`;
+      image = `https://cms.deepthought.education:5055/img/${req.file.filename}`;
 
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No post with id: ${id}`);
@@ -105,7 +105,7 @@ router.post("/AddAbout3", uploadimg.single("file"), (req, res) => {
   const about3data = new About3({
     name: req.body.name,
     designation: req.body.designation,
-    image: `https://deepthought.education:5055/img/${req.file.filename}`,
+    image: `https://cms.deepthought.education:5055/img/${req.file.filename}`,
     twitter: req.body.twitter,
     facebook: req.body.facebook,
     google: req.body.google,
@@ -149,7 +149,7 @@ router.put(
   async (req, res) => {
     const { id } = req.params;
     const { name, designation, twitter, facebook, google } = req.body,
-      image = `https://deepthought.education:5055/img/${req.file.filename}`;
+      image = `https://cms.deepthought.education:5055/img/${req.file.filename}`;
 
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No post with id: ${id}`);
