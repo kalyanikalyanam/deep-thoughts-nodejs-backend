@@ -22,7 +22,7 @@ var uploadimg = multer({
   fileFilter: function (req, file, callback) {
     var ext = path.extname(file.originalname);
     if (ext !== ".mp4" && ext !== ".png" && ext !== ".svg" && ext !== ".jpg") {
-      return callback("Only videos are allowed", null, false);
+      return callback("Only images are allowed", null, false);
     }
     callback(null, true);
   },
@@ -73,7 +73,7 @@ router.post("/add_sub_menu", uploadimg.single("file"), (req, res) => {
     description: req.body.description,
     description1: req.body.description1,
     menu: req.body.menu,
-    image: `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`,
+    image: `https://deepthought.education:5055/img/${req.file.filename}`,
   });
 
   console.log(req.body);
@@ -96,7 +96,7 @@ router.put(
   async (req, res) => {
     const { id } = req.params;
     const { submenu, description, description1, menu } = req.body,
-      image = `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`;
+      image = `https://deepthought.education:5055/img/${req.file.filename}`;
 
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No post with id: ${id}`);
@@ -131,7 +131,7 @@ router.put(
 //     bannerdata.description = req.body.description;
 //     bannerdata.description1 = req.body.description1;
 //     bannerdata.menu = req.body.menu;
-//     bannerdata.image = `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`;
+//     bannerdata.image = `https://deepthought.education:5055/img/${req.file.filename}`;
 
 //     let query = {
 //       _id: req.params.id,
