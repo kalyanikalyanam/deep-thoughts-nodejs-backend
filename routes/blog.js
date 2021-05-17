@@ -93,7 +93,7 @@ router.post("/AddBlog1", uploadimg.single("file"), (req, res) => {
   const blog1data = new Blog1({
     title: req.body.title,
     category: req.body.category,
-    image: `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`,
+    image: `http://deepthought.education:5055/img/${req.file.filename}`,
     description: req.body.description,
     date: req.body.date,
   });
@@ -149,7 +149,7 @@ router.put(
   async (req, res) => {
     const { id } = req.params;
     const { title, category, description, date } = req.body,
-      image = `https://deepthoughts-nodejs.herokuapp.com/img/${req.file.filename}`;
+      image = `http://deepthought.education:5055/img/${req.file.filename}`;
 
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No post with id: ${id}`);
